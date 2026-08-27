@@ -13,7 +13,7 @@ export interface AgentNodeProps {
 }
 
 export const AgentNodeView = memo(function AgentNodeView({
-  id = "agent-node",
+  id: _id = "agent-node",
   onClose,
 }: AgentNodeProps) {
   const [activeModule, setActiveModule] = useState<"goal" | "tools" | "context" | "logs" | null>(null);
