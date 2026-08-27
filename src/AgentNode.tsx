@@ -4,9 +4,8 @@ import { GoalModule } from "./GoalModule";
 import { ToolCallsModule } from "./ToolCallsModule";
 import { ContextMemoryModule } from "./ContextMemoryModule";
 import { TerminalLogsModule } from "./TerminalLogsModule";
-import type { GoalTaskItem, AgentChatMessage } from "./types";
-
 import { TrajectoryModal } from "./TrajectoryModal";
+import type { GoalTaskItem, AgentChatMessage } from "./types";
 
 export interface AgentNodeProps {
   id?: string;
@@ -18,8 +17,8 @@ export const AgentNodeView = memo(function AgentNodeView({
   id: _id = "agent-node",
   onClose,
 }: AgentNodeProps) {
-  const [showTrajectory, setShowTrajectory] = useState(false);
   const [activeModule, setActiveModule] = useState<"goal" | "tools" | "context" | "logs" | null>(null);
+  const [showTrajectory, setShowTrajectory] = useState(false);
   const [goal, setGoal] = useState<string>("Complete current objective and verify system readiness.");
   const [tasks, setTasks] = useState<GoalTaskItem[]>([
     { id: "1", text: "Scan project architecture & verify dependencies", done: true },
@@ -89,7 +88,7 @@ export const AgentNodeView = memo(function AgentNodeView({
       className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] shadow-2xl font-sans"
       style={{ fontSize: `${fontSize}px` }}
     >
-      {/* Trajectory & Event Inspector Modal */}
+      {/* Trajectory Modal Popup */}
       {showTrajectory && (
         <TrajectoryModal
           messages={messages}
@@ -110,7 +109,8 @@ export const AgentNodeView = memo(function AgentNodeView({
           <button
             type="button"
             onClick={() => setShowTrajectory(true)}
-            className="rounded bg-zinc-800 text-cyan-400 border border-zinc-700 px-1.5 py-0.5 hover:bg-zinc-700 hover:text-cyan-300 transition"
+            className="rounded bg-zinc-800 text-cyan-400 hover:bg-zinc-700 hover:text-cyan-300 border border-zinc-700 px-1.5 py-0.5 transition cursor-pointer"
+            title="Open Agent Trajectory & Event Inspector"
           >
             ⚡ trace
           </button>
