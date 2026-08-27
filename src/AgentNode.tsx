@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { HarnessModuleBar } from "./HarnessModuleBar";
 import { GoalModule } from "./GoalModule";
 import type { GoalTaskItem, AgentChatMessage } from "./types";
 
-export function AgentNode({ id, data }: { id?: string; data?: any }) {
+export function AgentNode() {
   const [activeGoal, setActiveGoal] = useState("Optimize system performance and configure backups");
   const [tasks, setTasks] = useState<GoalTaskItem[]>([
     { id: "t1", text: "Audit resource utilization across active nodes", done: true },

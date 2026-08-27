@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import type { GoalTaskItem } from "./types";
 
 export function GoalModule({
@@ -16,11 +16,19 @@ export function GoalModule({
 }) {
   const [editing, setEditing] = useState(false);
   const [input, setInput] = useState(activeGoal);
-  const [newTask, setNewTask] = useState("");
+  const [newTaskText, setNewTaskText] = useState("");
 
   const handleSave = () => {
     onSaveGoal(input);
     setEditing(false);
+  };
+
+  const handleAddTask = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newTaskText.trim()) {
+      onAddTask(newTaskText.trim());
+      setNewTaskText("");
+    }
   };
 
   return (
@@ -59,6 +67,32 @@ export function GoalModule({
           )}
         </div>
       </div>
+
+      {tasks.length > 0 && (
+        <div className="mt-2 space-y-1">
+          {tasks.map((t) => (
+            <label key={t.id} className="flex items-center gap-2 cursor-pointer text-[11px]">
+              <input
+                type="checkbox"
+                checked={t.done}
+                onChange={() => onToggleTask(t.id)}
+                className="rounded"
+              />
+              <span className={t.done ? "line-through text-gray-500" : "text-gray-300"}>{t.text}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      <form onSubmit={handleAddTask} className="mt-2 flex gap-1">
+        <input
+          type="text"
+          className="flex-1 rounded border border-[var(--border)] bg-[var(--surface-2)] px-2 py-0.5 text-[11px] text-gray-200"
+          placeholder="+ Add task..."
+          value={newTaskText}
+          onChange={(e) => setNewTaskText(e.target.value)}
+        />
+      </form>
     </div>
   );
 }
